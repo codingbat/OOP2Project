@@ -1,8 +1,8 @@
 
-public class MyProjectDriver {
+public class MainProgram {
 	public static void main(String[] args) {
 		
-		MyProject mp = new MyProject();
+		SupremeBot mp = new SupremeBot();
 		mp.setVisible(true);
 	}
 }
