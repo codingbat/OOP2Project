@@ -5,23 +5,26 @@ import javax.swing.*;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
-
 import java.util.List;
 import java.util.ArrayList;
 
-public class SupremeBot extends JFrame implements ActionListener, Serializable {
+public class BotChattingBot extends JFrame
+		implements
+			ActionListener,
+			Serializable {
 
 	JTextArea chatArea;
-	JTextField chatField;
+	// JTextField chatField;
 	JMenu file;
 	JMenu Bot;
-	JButton sendButton;
+	JButton askButton;
+	JButton replyButton;
 
 	CleverBotSession bot;
 
 	List<String> chatlog;
 
-	public SupremeBot() {
+	public BotChattingBot() {
 		/** Frame properties */
 		super("Supreme Bot");
 		setSize(700, 500);
@@ -33,7 +36,7 @@ public class SupremeBot extends JFrame implements ActionListener, Serializable {
 		setUndecorated(false); // false for mac
 		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
 		System.setProperty("apple.laf.useScreenMenuBar", "true"); // Mac styled
-																	// menubar
+		// menubar
 
 		/** Creating menu */
 		createFile();
@@ -54,16 +57,8 @@ public class SupremeBot extends JFrame implements ActionListener, Serializable {
 		bot = new CleverBotSession("http://www.cleverbot.com/webservicemin", 35);
 
 		/** Listening to all the actions */
-		chatField.addActionListener(this);
-		sendButton.addActionListener(this);
-
-		/** Listening to window events */
-		this.addWindowListener(new WindowAdapter() {
-			// Requesting focus to chat field
-			public void windowOpened(WindowEvent event) {
-				chatField.requestFocus();
-			}
-		});
+		askButton.addActionListener(this);
+		replyButton.addActionListener(this);
 
 		/** Underlining each mnemonic characters by default */
 		UIManager.getDefaults().put("Button.showMnemonics", Boolean.TRUE);
@@ -110,11 +105,12 @@ public class SupremeBot extends JFrame implements ActionListener, Serializable {
 
 		Box box = Box.createHorizontalBox();
 		add(box, BorderLayout.SOUTH);
-		chatField = new JTextField();
-		chatField.requestFocus();
-		sendButton = new JButton("Send");
-		box.add(chatField);
-		box.add(sendButton);
+		// chatField = new JTextField();
+		// chatField.requestFocus();
+		askButton = new JButton("Generate Converastion");
+		replyButton = new JButton("Reply to the Convo");
+		box.add(askButton);
+		box.add(replyButton);
 
 		/** Adding status bar */
 		// To-Do
@@ -122,18 +118,23 @@ public class SupremeBot extends JFrame implements ActionListener, Serializable {
 
 	public void actionPerformed(ActionEvent e) {
 
-		String question = chatField.getText();
+		String question = "Hey";
 		// System.out.println(question);
 
-		if (e.getActionCommand().equals(question)
-				|| e.getSource() == sendButton) {
-			// Validate if question is not empty and white spaces length is > 0
-			if (question != null && question.trim().length() > 0) {
-				chatArea.append("You: " + question + "\n");
-				// Adding to the arraylist
-				chatlog.add("You: " + question + "\n");
+		if (e.getSource() == askButton) {
+			try {
+				question = bot.think(question);
+			} catch (Exception e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
 
-				// Bot answers
+			chatArea.append("You: " + question + "\n");
+			// Adding to the arraylist
+			chatlog.add("You: " + question + "\n");
+			// chatField.setText(""); // set the chatField to empty
+
+			if (e.getSource() == replyButton) {
 				try {
 					String answer = bot.think(question);
 					chatArea.append("Bot: " + answer + "\n");
@@ -144,10 +145,9 @@ public class SupremeBot extends JFrame implements ActionListener, Serializable {
 					e1.printStackTrace();
 				}
 
-				chatField.setText(""); // set the chatField to empty
-			} // end of input validation
+			} // end of replying to the bot
+		} // end of asking the bot
 
-		} // end of chatField and sendButton listener
 	} // end of actionPerformed method
 
 }
