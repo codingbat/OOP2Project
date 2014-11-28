@@ -30,7 +30,7 @@ public class SupremeBot extends JFrame implements ActionListener, Serializable {
 		setDefaultCloseOperation(EXIT_ON_CLOSE); // close when exits
 
 		/** Use the default metal styled titlebar - for Windows */
-		setUndecorated(false); // false for mac
+		setUndecorated(true); // false for mac
 		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
 		System.setProperty("apple.laf.useScreenMenuBar", "true"); // Mac styled
 																	// menubar
