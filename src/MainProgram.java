@@ -5,6 +5,8 @@ public class MainProgram {
 		SupremeBot mp = new SupremeBot();
 		mp.setVisible(true); 
 		
+		/*
+		
 		
 		BotChattingBot computer = new BotChattingBot();
 		computer.setVisible(true);
@@ -12,5 +14,6 @@ public class MainProgram {
 		
 		LoginScreen login = new LoginScreen();
 		login.setVisible(true);
+		
 	}
 }

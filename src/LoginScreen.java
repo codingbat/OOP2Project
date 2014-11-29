@@ -6,8 +6,13 @@ import javax.swing.*;
 
 public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 	
-	JMenu file;
-	JMenu bot;
+	JMenu fileMenu;
+	JMenu botMenu;
+	JTextField userField;
+	JTextField passField;
+	JLabel userLbl;
+	JLabel passLbl;
+	JButton loginBtn;
 	
 	public LoginScreen() {
 		frameCreation();
@@ -15,39 +20,78 @@ public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 		createBot();
 		menuBar();
 		
+		setLayout(null); // set the layout to null to allow using the setBounds() method
+		userLbl = new JLabel("Username: ");
+		passLbl = new JLabel("Password: ");
+		
+		userField = new JTextField();
+		passField = new JTextField();
+		
+		loginBtn = new JButton("Login");
+		
+		userLbl.setBounds(80, 70, 200, 30);
+		passLbl.setBounds(80, 110, 200, 30);
+		userField.setBounds(300, 70, 200, 30);
+		passField.setBounds(300, 110, 200, 30);
+		loginBtn.setBounds(400, 160, 100, 60);
+
+		this.add(userLbl);
+		this.add(userField);
+		this.add(passLbl);
+		this.add(passField);
+		this.add(loginBtn);
+		
+		/** Request focus to login field */
+		this.addWindowListener(new WindowAdapter() {
+			// Requesting focus to user field
+			public void windowOpened(WindowEvent event) {
+				userField.requestFocus();
+			}
+		});
+		
+		/** Move to next field upon pressing Enter */
+		// http://www.rgagnon.com/javadetails/java-0253.html
+		this.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				int key = e.getKeyCode();
+				if (key == KeyEvent.VK_ENTER) 
+					passField.requestFocus();
+			}
+		});
+		
 		/** Underlining each mnemonic characters by default */
 		UIManager.getDefaults().put("Button.showMnemonics", Boolean.TRUE);
 	}
 
-	// Creating file menu
+	// Creating fileMenu menu
 	private void createFile() {
-		file = new JMenu("File");
-		file.setMnemonic('F');
-		file.setBackground(Color.red);
+		fileMenu = new JMenu("File");
+		fileMenu.setMnemonic('F');
+		fileMenu.setBackground(Color.red);
 
 		JMenuItem quit = new JMenuItem("Quit the Program");
 		quit.addActionListener(this);
 		quit.setForeground(Color.RED);
 
-		file.add(quit);
+		fileMenu.add(quit);
 	}
 
 	// Creating Bot menu
 	private void createBot() {
-		bot = new JMenu("Bot");
-		bot.setMnemonic('B');
-		bot.setBackground(Color.GREEN);
+		botMenu = new JMenu("Bot");
+		botMenu.setMnemonic('B');
+		botMenu.setBackground(Color.GREEN);
 
 		JMenuItem addBot = new JMenuItem("Add a Bot");
 		addBot.setMnemonic('A');
 		addBot.addActionListener(this);
-		bot.add(addBot);
+		botMenu.add(addBot);
 
-		bot.addSeparator();
+		botMenu.addSeparator();
 
 		JMenuItem displayBot = new JMenuItem("Display Bots");
 		displayBot.addActionListener(this);
-		bot.add(displayBot);
+		botMenu.add(displayBot);
 	}
 	
 	
@@ -64,7 +108,7 @@ public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 		setDefaultCloseOperation(EXIT_ON_CLOSE); // close when exits
 		
 		/** Use the default metal styled titlebar - for Windows */
-		setUndecorated(true); // false for mac
+		setUndecorated(false); // false for mac
 		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
 		System.setProperty("apple.laf.useScreenMenuBar", "true"); // Mac styled
 																	// menubar
@@ -74,8 +118,8 @@ public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		menuBar.setBackground(Color.YELLOW);
-		menuBar.add(file);
-		menuBar.add(bot);
+		menuBar.add(fileMenu);
+		menuBar.add(botMenu);
 	}
 	
 	/** All the implemented methods from ActionListener */
