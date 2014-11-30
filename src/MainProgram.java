@@ -1,19 +1,17 @@
+import javax.swing.SwingUtilities;
+
 
 public class MainProgram {
 	public static void main(String[] args) {
-		/*
-		SupremeBot mp = new SupremeBot();
-		mp.setVisible(true); 
-		
-		/*
-		
-		
-		BotChattingBot computer = new BotChattingBot();
-		computer.setVisible(true);
-		*/
-		
-		LoginScreen login = new LoginScreen();
-		login.setVisible(true);
-		
+
+		// https://stackoverflow.com/a/15302285
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				//
+				// Create a new instance of our application and display it.
+				//
+				new LoginScreen().setVisible(true);
+			}
+		});
 	}
 }
