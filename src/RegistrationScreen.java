@@ -123,7 +123,7 @@ public class RegistrationScreen extends JFrame implements GUICreation, ActionLis
 		setDefaultCloseOperation(EXIT_ON_CLOSE); // close when exits
 		
 		/** Use the default metal styled titlebar - for Windows */
-		setUndecorated(false); // false for mac
+		setUndecorated(true); // false for mac
 		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
 		//System.setProperty("apple.laf.useScreenMenuBar", "true"); // Mac styled
 																	// menubar
@@ -141,7 +141,9 @@ public class RegistrationScreen extends JFrame implements GUICreation, ActionLis
 	public void actionPerformed(ActionEvent e) {
 		
 		if (e.getSource() == cancelBtn) {
-		
+			Window frame = SwingUtilities.windowForComponent((Component) e
+                    .getSource());
+            frame.setVisible(true);
 		}
 		
 	}

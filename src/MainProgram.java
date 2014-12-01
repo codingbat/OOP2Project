@@ -11,6 +11,7 @@ public class MainProgram {
 				// Create a new instance of our application and display it.
 				//
 				new LoginScreen().setVisible(true);
+				
 			}
 		});
 	}

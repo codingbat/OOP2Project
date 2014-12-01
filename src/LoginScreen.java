@@ -82,7 +82,8 @@ public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 		JMenuItem quit = new JMenuItem("Quit the Program");
 		quit.addActionListener(this);
 		quit.setForeground(Color.RED);
-
+		quit.setEnabled(false); //disable the quit menu item in the login screen
+		
 		fileMenu.add(quit);
 	}
 
@@ -114,11 +115,9 @@ public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 		setDefaultCloseOperation(EXIT_ON_CLOSE); // close when exits
 
 		/** Use the default metal styled titlebar - for Windows */
-		setUndecorated(false); // false for mac
+		setUndecorated(true); // false for mac
 		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
-		// System.setProperty("apple.laf.useScreenMenuBar", "true"); // Mac
-		// styled
-		// menubar
+		
 	}
 
 	public void menuBar() {

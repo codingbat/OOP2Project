@@ -30,10 +30,10 @@ public class SupremeBot extends JFrame implements ActionListener, Serializable {
 		setDefaultCloseOperation(EXIT_ON_CLOSE); // close when exits
 
 		/** Use the default metal styled titlebar - for Windows */
-		setUndecorated(false); // false for mac
+		setUndecorated(true); // false for mac
 		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
 		System.setProperty("apple.laf.useScreenMenuBar", "true"); // Mac styled
-																	// menubar
+		// menubar
 
 		/** Creating menu */
 		createFile();
@@ -76,11 +76,11 @@ public class SupremeBot extends JFrame implements ActionListener, Serializable {
 		file.setMnemonic('F');
 		file.setBackground(Color.red);
 
-		JMenuItem quit = new JMenuItem("Quit the Program");
-		quit.addActionListener(this);
-		quit.setForeground(Color.RED);
+		JMenuItem load = new JMenuItem("Load previous conversation");
+		load.addActionListener(this);
+		load.setForeground(Color.RED);
 
-		file.add(quit);
+		file.add(load);
 	}
 
 	// Creating Bot menu
@@ -108,6 +108,8 @@ public class SupremeBot extends JFrame implements ActionListener, Serializable {
 		add(new JScrollPane(chatArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
 
+		// chatArea.setText(readFile());
+
 		Box box = Box.createHorizontalBox();
 		add(box, BorderLayout.SOUTH);
 		chatField = new JTextField();
@@ -127,6 +129,11 @@ public class SupremeBot extends JFrame implements ActionListener, Serializable {
 
 		if (e.getActionCommand().equals(question)
 				|| e.getSource() == sendButton) {
+
+			// Quit if !quit is typed
+			if (e.getActionCommand().equals("!quit"))
+				System.exit(0);
+
 			// Validate if question is not empty and white spaces length is > 0
 			if (question != null && question.trim().length() > 0) {
 				chatArea.append("You: " + question + "\n");
@@ -144,10 +151,61 @@ public class SupremeBot extends JFrame implements ActionListener, Serializable {
 					e1.printStackTrace();
 				}
 
+				saveFile(); // save the chat on every conversation iteration
 				chatField.setText(""); // set the chatField to empty
 			} // end of input validation
 
 		} // end of chatField and sendButton listener
+
+		if (e.getActionCommand().equals("Load previous conversation")) {
+			chatArea.setText(readFile());
+		}
+
 	} // end of actionPerformed method
+
+	/** Saving and Reading methods */
+	/** http://bit.ly/196RjvC */
+	public void saveFile() {
+		try {
+
+			File file = new File("test.txt");
+
+			// if file doesnt exists, then create it
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+
+			for (String i : chatlog) {
+				bw.write(i.toString());
+			}
+			// bw.write(chatlog.toString());
+
+			bw.close();
+
+			// System.out.println("Done");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/** http://stackoverflow.com/a/10710115 */
+	public String readFile() {
+		String content = null;
+		File file = new File("test.txt"); // for ex foo.txt
+		try {
+			FileReader reader = new FileReader(file);
+			char[] chars = new char[(int) file.length()];
+			reader.read(chars);
+			content = new String(chars);
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return content;
+	}
 
 }
