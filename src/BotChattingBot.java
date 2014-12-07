@@ -8,18 +8,18 @@ import java.awt.event.*;
 import java.util.List;
 import java.util.ArrayList;
 
-public class BotChattingBot extends JFrame
-		implements
-			ActionListener,
-			Serializable {
+public class BotChattingBot extends JFrame implements ActionListener,
+Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JTextArea chatArea;
 	// JTextField chatField;
 	JMenu file;
-	JMenu Bot;
 	JButton askButton;
-	JButton replyButton;
-
+	String menuName;
 	CleverBotSession bot;
 
 	List<String> chatlog;
@@ -33,21 +33,20 @@ public class BotChattingBot extends JFrame
 		setDefaultCloseOperation(EXIT_ON_CLOSE); // close when exits
 
 		/** Use the default metal styled titlebar - for Windows */
-		setUndecorated(false); // false for mac
+		setUndecorated(true); // false for mac
 		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
 		System.setProperty("apple.laf.useScreenMenuBar", "true"); // Mac styled
 		// menubar
 
 		/** Creating menu */
 		createFile();
-		createBot();
 
 		/** Setting menu bar */
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		menuBar.setBackground(Color.YELLOW);
 		menuBar.add(file);
-		menuBar.add(Bot);
+
 
 		/** Get the chat interface */
 		chatInterface();
@@ -58,7 +57,7 @@ public class BotChattingBot extends JFrame
 
 		/** Listening to all the actions */
 		askButton.addActionListener(this);
-		replyButton.addActionListener(this);
+		//replyButton.addActionListener(this);
 
 		/** Underlining each mnemonic characters by default */
 		UIManager.getDefaults().put("Button.showMnemonics", Boolean.TRUE);
@@ -71,29 +70,21 @@ public class BotChattingBot extends JFrame
 		file.setMnemonic('F');
 		file.setBackground(Color.red);
 
-		JMenuItem quit = new JMenuItem("Quit the Program");
+		JMenuItem logout = new JMenuItem("Logout");
+		logout.addActionListener(this);
+
+		JMenuItem back = new JMenuItem("<< Go Back");
+		back.addActionListener(this);
+
+		JMenuItem quit = new JMenuItem("Quit");
 		quit.addActionListener(this);
 		quit.setForeground(Color.RED);
 
+		file.add(logout);
+		file.add(back);
+		file.addSeparator();
 		file.add(quit);
-	}
 
-	// Creating Bot menu
-	private void createBot() {
-		Bot = new JMenu("Bot");
-		Bot.setMnemonic('B');
-		Bot.setBackground(Color.GREEN);
-
-		JMenuItem addBot = new JMenuItem("Add a Bot");
-		addBot.setMnemonic('A');
-		addBot.addActionListener(this);
-		Bot.add(addBot);
-
-		Bot.addSeparator();
-
-		JMenuItem displayBot = new JMenuItem("Display Bots");
-		displayBot.addActionListener(this);
-		Bot.add(displayBot);
 	}
 
 	private void chatInterface() {
@@ -105,15 +96,10 @@ public class BotChattingBot extends JFrame
 
 		Box box = Box.createHorizontalBox();
 		add(box, BorderLayout.SOUTH);
-		// chatField = new JTextField();
-		// chatField.requestFocus();
-		askButton = new JButton("Generate Converastion");
-		replyButton = new JButton("Reply to the Convo");
+		askButton = new JButton("Click to Begin Bot vs Bot Conversation");
 		box.add(askButton);
-		box.add(replyButton);
 
-		/** Adding status bar */
-		// To-Do
+
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -125,29 +111,77 @@ public class BotChattingBot extends JFrame
 			try {
 				question = bot.think(question);
 			} catch (Exception e2) {
-				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
 
-			chatArea.append("You: " + question + "\n");
+			chatArea.append("Computer 1: " + question + "\n");
 			// Adding to the arraylist
-			chatlog.add("You: " + question + "\n");
-			// chatField.setText(""); // set the chatField to empty
+			chatlog.add("Computer 1: " + question + "\n");
 
-			if (e.getSource() == replyButton) {
-				try {
-					String answer = bot.think(question);
-					chatArea.append("Bot: " + answer + "\n");
-					chatlog.add("Bot: " + answer + "\n");
+			//System.out.println(chatlog.get(chatlog.size()-1));
 
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+			try {
+				String answer = bot.think(question);
+				chatArea.append("Computer 2: " + answer + "\n");
+				chatlog.add("Computer 2: " + answer + "\n");
 
-			} // end of replying to the bot
+			} catch (Exception e1) {
+
+				e1.printStackTrace();
+			}
+
+
+			askButton.setText("Keep chatting to the computer");
+
 		} // end of asking the bot
+
+		/** Dealing with menu */
+		menuName = e.getActionCommand();
+		menuActions();
 
 	} // end of actionPerformed method
 
+	private void menuActions() {
+
+		switch (menuName) {
+		case "Logout":
+			// a safer approach to deal with swing objects is to use
+			// SwingUtilities
+			int option = JOptionPane.showConfirmDialog(this,
+					"Are you sure you want to logout?", "Confirm",
+					JOptionPane.YES_NO_OPTION);
+
+			if (option == JOptionPane.YES_OPTION) {
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						new LoginScreen().setVisible(true); // go back to the login
+						// screen
+					}
+				});
+				this.setVisible(false);
+			}
+			break;
+
+		case "Quit":
+			System.exit(0);
+			break;
+
+		case "<< Go Back":
+			int bck = JOptionPane.showConfirmDialog(this,
+					"Are you sure you want to go back?", "Confirm",
+					JOptionPane.YES_NO_OPTION);
+
+			if (bck == JOptionPane.YES_OPTION) {
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						new Dashboard().setVisible(true); // go back to the login
+						// screen
+					}
+				});
+				this.setVisible(false);
+			}
+			break;
+
+		} // end of switch
+	} //end of menuActions()
 }

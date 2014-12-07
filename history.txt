@@ -1,2 +1,4 @@
 You: hey
 Bot: How are you doing?
+You: I am fine, how are you?
+Bot: I am fine, thanks!

@@ -9,6 +9,7 @@ import java.security.MessageDigest;
 import java.util.Map;
 
 public class Utils {
+	@SuppressWarnings("rawtypes")
 	public static String parametersToWWWFormURLEncoded(Map<String, String> parameters)
 			throws Exception {
 		StringBuilder s = new StringBuilder();

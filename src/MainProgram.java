@@ -8,7 +8,7 @@ public class MainProgram {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				
-				new LoginScreen().setVisible(true);
+				new DumbBot().setVisible(true);
 				
 			}
 		});

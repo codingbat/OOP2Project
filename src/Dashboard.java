@@ -13,16 +13,15 @@ public class Dashboard extends JFrame implements GUICreation, ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	JMenu fileMenu;
-	JMenu botMenu;
 	JButton dumbBot;
 	JButton botVersusBot;
 	JButton supremeBot;
 	JLabel choose;
-
+	String menuName;
+	
 	public Dashboard() {
 		frameCreation();
 		createFile();
-		createBot();
 		menuBar();
 		setLayout(null);
 
@@ -58,7 +57,7 @@ public class Dashboard extends JFrame implements GUICreation, ActionListener {
 			// a safer approach to deal with swing objects is to use SwingUtilities
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					new LoginScreen().setVisible(true); // go back to the login screen
+					new DumbBot().setVisible(true); // go back to the login screen
 				}
 			});
 			this.setVisible(false); // hide the dashboard screen
@@ -81,6 +80,10 @@ public class Dashboard extends JFrame implements GUICreation, ActionListener {
 			});
 			this.setVisible(false); // hide the dashboard screen
 		}
+		
+		/** Dealing with menu */
+		menuName = e.getActionCommand();
+		menuActions();
 
 	} //end of actionPerformed()
 
@@ -105,8 +108,6 @@ public class Dashboard extends JFrame implements GUICreation, ActionListener {
 		setJMenuBar(menuBar);
 		menuBar.setBackground(Color.YELLOW);
 		menuBar.add(fileMenu);
-		menuBar.add(botMenu);
-
 	}
 
 
@@ -116,29 +117,45 @@ public class Dashboard extends JFrame implements GUICreation, ActionListener {
 		fileMenu.setMnemonic('F');
 		fileMenu.setBackground(Color.red);
 
-		JMenuItem quit = new JMenuItem("Quit the Program");
+		JMenuItem logout = new JMenuItem("Logout");
+		logout.addActionListener(this);
+
+		JMenuItem quit = new JMenuItem("Quit");
 		quit.addActionListener(this);
 		quit.setForeground(Color.RED);
 
+		fileMenu.add(logout);
+
+		fileMenu.addSeparator();
 		fileMenu.add(quit);
 	}
 
-	// Creating Bot menu
-	private void createBot() {
-		botMenu = new JMenu("Bot");
-		botMenu.setMnemonic('B');
-		botMenu.setBackground(Color.GREEN);
+	private void menuActions() {
 
-		JMenuItem addBot = new JMenuItem("Add a Bot");
-		addBot.setMnemonic('A');
-		addBot.addActionListener(this);
-		botMenu.add(addBot);
+		switch (menuName) {
+		case "Logout":
+			// a safer approach to deal with swing objects is to use
+			// SwingUtilities
+			int option = JOptionPane.showConfirmDialog(this,
+					"Are you sure you want to logout?", "Confirm",
+					JOptionPane.YES_NO_OPTION);
 
-		botMenu.addSeparator();
+			if (option == JOptionPane.YES_OPTION) {
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						new LoginScreen().setVisible(true); // go back to the login
+						// screen
+					}
+				});
+				this.setVisible(false);
+			}
+			break;
 
-		JMenuItem displayBot = new JMenuItem("Display Bots");
-		displayBot.addActionListener(this);
-		botMenu.add(displayBot);
-	}
+		case "Quit":
+			System.exit(0);
+			break;
 
+
+		} // end of switch
+	} //end of menuActions()
 }
