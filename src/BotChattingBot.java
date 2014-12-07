@@ -12,17 +12,16 @@ public class BotChattingBot extends JFrame implements ActionListener,
 Serializable {
 
 	/**
-	 * 
+	 * Eclipse generated the serialVersionUID
 	 */
 	private static final long serialVersionUID = 1L;
-	JTextArea chatArea;
-	// JTextField chatField;
-	JMenu file;
-	JButton askButton;
-	String menuName;
-	CleverBotSession bot;
+	private JTextArea chatArea;
+	private JMenu file;
+	private JButton askButton;
+	private String menuName;
+	private CleverBotSession bot;
 
-	List<String> chatlog;
+	private List<String> chatlog;
 
 	public BotChattingBot() {
 		/** Frame properties */
@@ -32,12 +31,21 @@ Serializable {
 		setLocationRelativeTo(null); // window in the centre
 		setDefaultCloseOperation(EXIT_ON_CLOSE); // close when exits
 
-		/** Use the default metal styled titlebar - for Windows */
-		setUndecorated(true); // false for mac
-		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
-		System.setProperty("apple.laf.useScreenMenuBar", "true"); // Mac styled
-		// menubar
+		
+		/*****************************************************
+		*    Title: JRootPane: setWindowDecorationStyle(int style)
+		*    Author: Java2s
+		*    Site owner/sponsor: http://www.java2s.com
+		*    Date: 2014
+		*    Code version: edited Jan 10 '13 at 17:42
+		*    Availability: http://www.java2s.com/Code/JavaAPI/javax.swing/JRootPanesetWindowDecorationStyleintstyle.htm (Accessed 07 December 2014)
+		*    Modified:  (remain unmodified)
+		*****************************************************/
 
+		/** Use the default metal styled titlebar - for Windows */
+		setUndecorated(true); 
+		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
+		
 		/** Creating menu */
 		createFile();
 
@@ -57,8 +65,18 @@ Serializable {
 
 		/** Listening to all the actions */
 		askButton.addActionListener(this);
-		//replyButton.addActionListener(this);
 
+		
+		/*****************************************************
+		*    Title: Is there a way to set underline to mnemonic character in native look and feel under Win 7?
+		*    Author: a_horse_with_no_name
+		*    Site owner/sponsor: stackoverflow.com
+		*    Date: 2013
+		*    Code version: edited Sep 15 '13 at 10:23
+		*    Availability: http://stackoverflow.com/a/18811279 (Accessed 07 December 2014)
+		*    Modified:  (remain unmodified)
+		*****************************************************/
+		
 		/** Underlining each mnemonic characters by default */
 		UIManager.getDefaults().put("Button.showMnemonics", Boolean.TRUE);
 
@@ -145,13 +163,21 @@ Serializable {
 
 		switch (menuName) {
 		case "Logout":
-			// a safer approach to deal with swing objects is to use
-			// SwingUtilities
 			int option = JOptionPane.showConfirmDialog(this,
 					"Are you sure you want to logout?", "Confirm",
 					JOptionPane.YES_NO_OPTION);
 
 			if (option == JOptionPane.YES_OPTION) {
+				
+				/*****************************************************
+				*    Title: Why to use SwingUtilities.invokeLater in main method?
+				*    Author: mKorbel
+				*    Site owner/sponsor: stackoverflow.com
+				*    Date: 2013
+				*    Code version: edited Mar 8 '13 at 21:09
+				*    Availability: http://stackoverflow.com/q/15302085 (Accessed 07 December 2014)
+				*    Modified:  added my class to suit with my program
+				*****************************************************/
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						new LoginScreen().setVisible(true); // go back to the login
@@ -172,6 +198,15 @@ Serializable {
 					JOptionPane.YES_NO_OPTION);
 
 			if (bck == JOptionPane.YES_OPTION) {
+				/*****************************************************
+				*    Title: Why to use SwingUtilities.invokeLater in main method?
+				*    Author: mKorbel
+				*    Site owner/sponsor: stackoverflow.com
+				*    Date: 2013
+				*    Code version: edited Mar 8 '13 at 21:09
+				*    Availability: http://stackoverflow.com/q/15302085 (Accessed 07 December 2014)
+				*    Modified:  added my class to suit with my program
+				*****************************************************/
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						new Dashboard().setVisible(true); // go back to the login

@@ -14,13 +14,13 @@ import java.util.List;
 public class DumbBot extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	JTextArea chatArea;
-	JTextField chatField;
-	JMenu file;
-	JButton sendButton;
-	String menuName;
+	private JTextArea chatArea;
+	private JTextField chatField;
+	private JMenu file;
+	private JButton sendButton;
+	private String menuName;
 
-	List<String> chatlog;
+	private List<String> chatlog;
 
 	String[][] chatBot = {
 			// standard greetings
@@ -48,6 +48,16 @@ public class DumbBot extends JFrame implements ActionListener {
 		setLocationRelativeTo(null); // window in the centre
 		setDefaultCloseOperation(EXIT_ON_CLOSE); // close when exits
 
+		/*****************************************************
+		*    Title: JRootPane: setWindowDecorationStyle(int style)
+		*    Author: Java2s
+		*    Site owner/sponsor: http://www.java2s.com
+		*    Date: 2014
+		*    Code version: edited Jan 10 '13 at 17:42
+		*    Availability: http://www.java2s.com/Code/JavaAPI/javax.swing/JRootPanesetWindowDecorationStyleintstyle.htm (Accessed 07 December 2014)
+		*    Modified:  (remain unmodified)
+		*****************************************************/
+		
 		/** Use the default metal styled titlebar - for Windows */
 		setUndecorated(true); // false for mac
 		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
@@ -78,6 +88,16 @@ public class DumbBot extends JFrame implements ActionListener {
 			}
 		});
 
+		/*****************************************************
+		*    Title: Is there a way to set underline to mnemonic character in native look and feel under Win 7?
+		*    Author: a_horse_with_no_name
+		*    Site owner/sponsor: stackoverflow.com
+		*    Date: 2013
+		*    Code version: edited Sep 15 '13 at 10:23
+		*    Availability: http://stackoverflow.com/a/18811279 (Accessed 07 December 2014)
+		*    Modified:  (remain unmodified)
+		*****************************************************/
+		
 		/** Underlining each mnemonic characters by default */
 		UIManager.getDefaults().put("Button.showMnemonics", Boolean.TRUE);
 	}
@@ -136,7 +156,7 @@ public class DumbBot extends JFrame implements ActionListener {
 		menuActions();
 	}
 
-	public boolean inArray(String in, String[] str) {
+	private boolean inArray(String in, String[] str) {
 		boolean match = false;
 		for (int i = 0; i < str.length; i++) {
 			if (str[i].equals(in)) {
@@ -176,13 +196,20 @@ public class DumbBot extends JFrame implements ActionListener {
 
 		switch (menuName) {
 		case "Logout":
-			// a safer approach to deal with swing objects is to use
-			// SwingUtilities
 			int option = JOptionPane.showConfirmDialog(this,
 					"Are you sure you want to logout?", "Confirm",
 					JOptionPane.YES_NO_OPTION);
 
 			if (option == JOptionPane.YES_OPTION) {
+				/*****************************************************
+				*    Title: Why to use SwingUtilities.invokeLater in main method?
+				*    Author: mKorbel
+				*    Site owner/sponsor: stackoverflow.com
+				*    Date: 2013
+				*    Code version: edited Mar 8 '13 at 21:09
+				*    Availability: http://stackoverflow.com/q/15302085 (Accessed 07 December 2014)
+				*    Modified:  added my class to suit with my program
+				*****************************************************/
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						new LoginScreen().setVisible(true); // go back to the
@@ -211,6 +238,15 @@ public class DumbBot extends JFrame implements ActionListener {
 					JOptionPane.YES_NO_OPTION);
 
 			if (bck == JOptionPane.YES_OPTION) {
+				/*****************************************************
+				*    Title: Why to use SwingUtilities.invokeLater in main method?
+				*    Author: mKorbel
+				*    Site owner/sponsor: stackoverflow.com
+				*    Date: 2013
+				*    Code version: edited Mar 8 '13 at 21:09
+				*    Availability: http://stackoverflow.com/q/15302085 (Accessed 07 December 2014)
+				*    Modified:  added my class to suit with my program
+				*****************************************************/
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						new Dashboard().setVisible(true); // go back to the
@@ -232,8 +268,6 @@ public class DumbBot extends JFrame implements ActionListener {
 		add(new JScrollPane(chatArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
 
-		// chatArea.setText(readFile());
-
 		Box box = Box.createHorizontalBox();
 		add(box, BorderLayout.SOUTH);
 		chatField = new JTextField();
@@ -242,8 +276,6 @@ public class DumbBot extends JFrame implements ActionListener {
 		box.add(chatField);
 		box.add(sendButton);
 
-		/** Adding status bar */
-		// To-Do
 	}
 
 	private boolean fileExist() {
@@ -252,9 +284,18 @@ public class DumbBot extends JFrame implements ActionListener {
 		return file.exists();
 	}
 
+	/*****************************************************
+	*    Title: How to write to file in Java – BufferedWriter
+	*    Author: mkyong
+	*    Site owner/sponsor: http://www.mkyong.com
+	*    Date: 2013
+	*    Code version: Posted on June 2, 2010 ,     Last modified : August 29, 2012 
+	*    Availability: http://bit.ly/196RjvC (Accessed 07 December 2014)
+	*    Modified:  modified to suit with my program
+	*****************************************************/
+	
 	/** Saving and Reading methods */
-	/** http://bit.ly/196RjvC */
-	public void saveFile() {
+	private void saveFile() {
 		try {
 
 			File file = new File("dumbhistory.txt");
@@ -281,8 +322,18 @@ public class DumbBot extends JFrame implements ActionListener {
 		}
 	}
 
-	/** http://stackoverflow.com/a/10710115 */
-	public String readFile() {
+	/*****************************************************
+	*    Title: Best way to read a text file
+	*    Author: Grimy
+	*    Site owner/sponsor: http://stackoverflow.com
+	*    Date: 2013
+	*    Code version: edited Aug 11 '13 at 17:15
+	*    Availability: http://stackoverflow.com/a/10710115 (Accessed 07 December 2014)
+	*    Modified:  modified to suit with my program
+	*****************************************************/
+	
+	/** Read file */
+	private String readFile() {
 		String content = null;
 		File file = new File("dumbhistory.txt"); // for ex foo.txt
 		try {

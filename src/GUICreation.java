@@ -1,8 +1,8 @@
-
+/** Interface class for GUI Creation */
 public interface GUICreation {
 	
-	public void frameCreation();
+	public abstract void frameCreation();
 	
-	public void menuBar();
+	public abstract void menuBar();
 	
 }
