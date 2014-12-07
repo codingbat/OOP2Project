@@ -29,9 +29,7 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * Creates a new Student with the given name.
-	 * The name should include both first and
-	 * last name.
+	 * Creates a new user with username and password.
 	 *
 	 * @param user This parameter takes the username.
 	 * @param pass This parameter takes the password.
@@ -45,17 +43,17 @@ public class User implements Serializable {
 	/**
 	 * This method is used to gets the user name.
 	 *
-	 * @return String This returns the username.
+	 * @return user This returns the username.
 	 */
 	public String getUser() {
 		return user;
 	}
 
 	/**
-	 * Sets the user.
+	 * Sets the username.
 	 *
-	 * @param user This sets the user name.
-	 * @return void Nothing
+	 * @param user the username to set for the user.
+	 * 
 	 */
 	public void setUser(String user) {
 		this.user = user;
@@ -64,7 +62,7 @@ public class User implements Serializable {
 	/**
 	 * Gets the password.
 	 *
-	 * @return the password
+	 * @return password This gets the password.
 	 */
 	public char[] getPassword() {
 		return password;
@@ -73,7 +71,7 @@ public class User implements Serializable {
 	/**
 	 * Sets the password.
 	 *
-	 * @param password the password to set
+	 * @param password the password to set for the user.
 	 */
 	public void setPassword(char[] password) {
 		this.password = password;

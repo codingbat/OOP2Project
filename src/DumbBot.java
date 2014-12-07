@@ -22,7 +22,7 @@ public class DumbBot extends JFrame implements ActionListener {
 
 	private List<String> chatlog;
 
-	String[][] chatBot = {
+	private String[][] chatBot = {
 			// standard greetings
 			{ "hi", "hello", "hola", "ola", "howdy" },
 			{ "hi", "hello", "hey" },

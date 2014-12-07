@@ -294,7 +294,7 @@ public class SupremeBot extends JFrame implements ActionListener, Serializable {
 	*    Availability: http://stackoverflow.com/a/10710115 (Accessed 07 December 2014)
 	*    Modified:  modified to suit with my program
 	*****************************************************/
-	public String readFile() {
+	private String readFile() {
 		String content = null;
 		File file = new File("history.txt"); // for ex foo.txt
 		try {
