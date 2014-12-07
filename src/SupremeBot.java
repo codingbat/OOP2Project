@@ -5,12 +5,15 @@ import javax.swing.*;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
-
 import java.util.List;
 import java.util.ArrayList;
 
 public class SupremeBot extends JFrame implements ActionListener, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JTextArea chatArea;
 	JTextField chatField;
 	JMenu file;
@@ -146,9 +149,9 @@ public class SupremeBot extends JFrame implements ActionListener, Serializable {
 					chatArea.append("Bot: " + answer + "\n");
 					chatlog.add("Bot: " + answer + "\n");
 
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} catch (Exception event) {
+
+					event.printStackTrace();
 				}
 
 				saveFile(); // save the chat on every conversation iteration
@@ -158,7 +161,10 @@ public class SupremeBot extends JFrame implements ActionListener, Serializable {
 		} // end of chatField and sendButton listener
 
 		if (e.getActionCommand().equals("Load previous conversation")) {
-			chatArea.setText(readFile());
+			if (fileExist())
+				chatArea.setText(readFile());
+			else
+				JOptionPane.showMessageDialog(null, "No history found!");
 		}
 
 	} // end of actionPerformed method
@@ -168,7 +174,7 @@ public class SupremeBot extends JFrame implements ActionListener, Serializable {
 	public void saveFile() {
 		try {
 
-			File file = new File("test.txt");
+			File file = new File("history.txt");
 
 			// if file doesnt exists, then create it
 			if (!file.exists()) {
@@ -195,7 +201,7 @@ public class SupremeBot extends JFrame implements ActionListener, Serializable {
 	/** http://stackoverflow.com/a/10710115 */
 	public String readFile() {
 		String content = null;
-		File file = new File("test.txt"); // for ex foo.txt
+		File file = new File("history.txt"); // for ex foo.txt
 		try {
 			FileReader reader = new FileReader(file);
 			char[] chars = new char[(int) file.length()];
@@ -208,4 +214,10 @@ public class SupremeBot extends JFrame implements ActionListener, Serializable {
 		return content;
 	}
 
+	
+	private boolean fileExist() {
+		File file = new File("history.txt");
+
+		return file.exists();
+	}
 }

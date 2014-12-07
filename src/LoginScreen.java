@@ -1,31 +1,44 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
 public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JMenu fileMenu;
 	JMenu botMenu;
 	JTextField userField;
 	JPasswordField passField;
 	JButton loginBtn;
 	JButton regBtn;
+	ArrayList<User> users;
 
 	public LoginScreen() {
 		frameCreation();
 		createFile();
 		createBot();
 		menuBar();
+		users = new ArrayList<User>();
+		//newUser = new User();
 
 		setLayout(null); // set the layout to null to allow using the
-							// setBounds() method
+		// setBounds() method
 		JLabel userLbl = new JLabel("Username: ");
 		JLabel passLbl = new JLabel("Password: ");
-		
+
 		userField = new JTextField();
 		passField = new JPasswordField();
-		
+
 		loginBtn = new JButton("Login");
 		regBtn = new JButton("Register");
 
@@ -67,8 +80,8 @@ public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 		passField.addActionListener(this);
 		loginBtn.addActionListener(this);
 		regBtn.addActionListener(this);
-		
-		
+
+
 		/** Underlining each mnemonic characters by default */
 		UIManager.getDefaults().put("Button.showMnemonics", Boolean.TRUE);
 	}
@@ -83,7 +96,7 @@ public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 		quit.addActionListener(this);
 		quit.setForeground(Color.RED);
 		quit.setEnabled(false); //disable the quit menu item in the login screen
-		
+
 		fileMenu.add(quit);
 	}
 
@@ -117,7 +130,7 @@ public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 		/** Use the default metal styled titlebar - for Windows */
 		setUndecorated(true); // false for mac
 		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
-		
+
 	}
 
 	public void menuBar() {
@@ -136,35 +149,115 @@ public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 		String pass = String.valueOf(password);
 		//System.out.print(password);
 
+		//newUser.getUser();
+
 		if (e.getSource() == regBtn) {
-			
+
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
+
 					new RegistrationScreen().setVisible(true);
 				}
 			});
-			
-			// https://stackoverflow.com/a/7334900
-			Window frame = SwingUtilities.windowForComponent((Component) e
-	                    .getSource());
-	            frame.setVisible(false);	
 
-		/*} else if (user.equals("") || pass.equals("")) {
+			// https://stackoverflow.com/a/7334900
+			//Window frame = SwingUtilities.windowForComponent((Component) e
+			//  .getSource());
+			// frame.setVisible(false);
+
+			this.setVisible(false);
+
+			/*} else if (user.equals("") || pass.equals("")) {
 			JOptionPane.showMessageDialog(null, "Error"); */
-		} else if (user.equals("admin") && pass.equals("admin")) {
+		} else  {
+
+			//check if file exists in the directory
+			if (fileExist()) {
+				readFile(); //if exists read the file
+
+			} else {
+
+				confirmRegistration();
+			}
+
+			// loop through entire 'users' file
+			for (User u : users) {
+				String pas = String.valueOf(u.getPassword());
+
+				if (notEmpty()) {
+					if (u.getUser().equals(user) && pas.equals(pass)) {
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+
+								new Dashboard().setVisible(true);
+							}
+						});
+
+						/** hide the ancestor window */
+						Window frame = SwingUtilities.windowForComponent((Component) e
+								.getSource());
+						frame.setVisible(false);
+					} else
+						JOptionPane.showMessageDialog(null,"Username/password is not recognised!");
+				} else
+					JOptionPane.showMessageDialog(null, "Please enter username and password!");
 			
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					new SupremeBot().setVisible(true);
-				}
-			});
-			
-			/** hide the ancestor window */
-			Window frame = SwingUtilities.windowForComponent((Component) e
-                    .getSource());
-            frame.setVisible(false);
-		}
+			} // end of for-loop	
+
+		} // end of regBtn ActionListener check
 
 	}
 
+	//reading the file
+	@SuppressWarnings("unchecked")
+	public void readFile() {
+		try {
+			FileInputStream fis = new FileInputStream("users");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			users = (ArrayList<User>) ois.readObject();
+			ois.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e2) { 
+			e2.printStackTrace();
+		}
+	}
+
+	private boolean fileExist() {
+		File file = new File("users");
+		return file.exists();
+	}
+
+	/** Confirm registration method */
+	private void confirmRegistration() {
+		int option = JOptionPane.showConfirmDialog(null, "No users found in the system! "
+				+ "Do you want to create a new one?", "Not found", JOptionPane.YES_NO_OPTION);
+
+		if (option == JOptionPane.YES_OPTION) {
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+
+					new RegistrationScreen().setVisible(true);
+				}
+			});
+			this.setVisible(false); // hide the login screen
+		}
+	}
+
+	public boolean notEmpty() {
+		char[] pass = passField.getPassword();
+		String password = String.valueOf(pass);		
+		String user = userField.getText();
+
+		if (pass != null && password.trim().length() > 0
+				&& (user != null && user.trim().length() > 0) ) {
+			return true;
+		}
+
+		return false;
+	}
 }
