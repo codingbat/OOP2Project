@@ -31,21 +31,21 @@ Serializable {
 		setLocationRelativeTo(null); // window in the centre
 		setDefaultCloseOperation(EXIT_ON_CLOSE); // close when exits
 
-		
+
 		/*****************************************************
-		*    Title: JRootPane: setWindowDecorationStyle(int style)
-		*    Author: Java2s
-		*    Site owner/sponsor: http://www.java2s.com
-		*    Date: 2014
-		*    Code version: edited Jan 10 '13 at 17:42
-		*    Availability: http://www.java2s.com/Code/JavaAPI/javax.swing/JRootPanesetWindowDecorationStyleintstyle.htm (Accessed 07 December 2014)
-		*    Modified:  (remain unmodified)
-		*****************************************************/
+		 *    Title: JRootPane: setWindowDecorationStyle(int style)
+		 *    Author: Java2s
+		 *    Site owner/sponsor: http://www.java2s.com
+		 *    Date: 2014
+		 *    Code version: edited Jan 10 '13 at 17:42
+		 *    Availability: http://www.java2s.com/Code/JavaAPI/javax.swing/JRootPanesetWindowDecorationStyleintstyle.htm (Accessed 07 December 2014)
+		 *    Modified:  (remain unmodified)
+		 *****************************************************/
 
 		/** Use the default metal styled titlebar - for Windows */
 		setUndecorated(true); 
 		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
-		
+
 		/** Creating menu */
 		createFile();
 
@@ -66,17 +66,17 @@ Serializable {
 		/** Listening to all the actions */
 		askButton.addActionListener(this);
 
-		
+
 		/*****************************************************
-		*    Title: Is there a way to set underline to mnemonic character in native look and feel under Win 7?
-		*    Author: a_horse_with_no_name
-		*    Site owner/sponsor: stackoverflow.com
-		*    Date: 2013
-		*    Code version: edited Sep 15 '13 at 10:23
-		*    Availability: http://stackoverflow.com/a/18811279 (Accessed 07 December 2014)
-		*    Modified:  (remain unmodified)
-		*****************************************************/
-		
+		 *    Title: Is there a way to set underline to mnemonic character in native look and feel under Win 7?
+		 *    Author: a_horse_with_no_name
+		 *    Site owner/sponsor: stackoverflow.com
+		 *    Date: 2013
+		 *    Code version: edited Sep 15 '13 at 10:23
+		 *    Availability: http://stackoverflow.com/a/18811279 (Accessed 07 December 2014)
+		 *    Modified:  (remain unmodified)
+		 *****************************************************/
+
 		/** Underlining each mnemonic characters by default */
 		UIManager.getDefaults().put("Button.showMnemonics", Boolean.TRUE);
 
@@ -124,6 +124,7 @@ Serializable {
 
 		String question = "Hey";
 		// System.out.println(question);
+		boolean asked = false;
 
 		if (e.getSource() == askButton) {
 			try {
@@ -135,19 +136,21 @@ Serializable {
 			chatArea.append("Computer 1: " + question + "\n");
 			// Adding to the arraylist
 			chatlog.add("Computer 1: " + question + "\n");
-
+			asked = true;
+			
 			//System.out.println(chatlog.get(chatlog.size()-1));
+			if(asked) {
+				try {
+					String answer = bot.think(question);
+					chatArea.append("Computer 2: " + answer + "\n");
+					chatlog.add("Computer 2: " + answer + "\n");
 
-			try {
-				String answer = bot.think(question);
-				chatArea.append("Computer 2: " + answer + "\n");
-				chatlog.add("Computer 2: " + answer + "\n");
+				} catch (Exception e1) {
 
-			} catch (Exception e1) {
-
-				e1.printStackTrace();
+					e1.printStackTrace();
+				}
+				asked = false;
 			}
-
 
 			askButton.setText("Keep chatting to the computer");
 
@@ -168,16 +171,16 @@ Serializable {
 					JOptionPane.YES_NO_OPTION);
 
 			if (option == JOptionPane.YES_OPTION) {
-				
+
 				/*****************************************************
-				*    Title: Why to use SwingUtilities.invokeLater in main method?
-				*    Author: mKorbel
-				*    Site owner/sponsor: stackoverflow.com
-				*    Date: 2013
-				*    Code version: edited Mar 8 '13 at 21:09
-				*    Availability: http://stackoverflow.com/q/15302085 (Accessed 07 December 2014)
-				*    Modified:  added my class to suit with my program
-				*****************************************************/
+				 *    Title: Why to use SwingUtilities.invokeLater in main method?
+				 *    Author: mKorbel
+				 *    Site owner/sponsor: stackoverflow.com
+				 *    Date: 2013
+				 *    Code version: edited Mar 8 '13 at 21:09
+				 *    Availability: http://stackoverflow.com/q/15302085 (Accessed 07 December 2014)
+				 *    Modified:  added my class to suit with my program
+				 *****************************************************/
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						new LoginScreen().setVisible(true); // go back to the login
@@ -199,14 +202,14 @@ Serializable {
 
 			if (bck == JOptionPane.YES_OPTION) {
 				/*****************************************************
-				*    Title: Why to use SwingUtilities.invokeLater in main method?
-				*    Author: mKorbel
-				*    Site owner/sponsor: stackoverflow.com
-				*    Date: 2013
-				*    Code version: edited Mar 8 '13 at 21:09
-				*    Availability: http://stackoverflow.com/q/15302085 (Accessed 07 December 2014)
-				*    Modified:  added my class to suit with my program
-				*****************************************************/
+				 *    Title: Why to use SwingUtilities.invokeLater in main method?
+				 *    Author: mKorbel
+				 *    Site owner/sponsor: stackoverflow.com
+				 *    Date: 2013
+				 *    Code version: edited Mar 8 '13 at 21:09
+				 *    Availability: http://stackoverflow.com/q/15302085 (Accessed 07 December 2014)
+				 *    Modified:  added my class to suit with my program
+				 *****************************************************/
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						new Dashboard().setVisible(true); // go back to the login
