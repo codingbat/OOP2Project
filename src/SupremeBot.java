@@ -248,7 +248,7 @@ public class SupremeBot extends JFrame implements ActionListener, Serializable {
 	}
 
 	/*****************************************************
-	*    Title: How to write to file in Java â€“ BufferedWriter
+	*    Title: How to write to file in Java – BufferedWriter
 	*    Author: mkyong
 	*    Site owner/sponsor: http://www.mkyong.com
 	*    Date: 2013
