@@ -15,10 +15,8 @@ public class User implements Serializable {
 
 	/** Eclipse generated the serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	/** The username of the user. */
-	private String user;
-	/** The password of the user */
-	private char[] password; 
+	private String user; /** The username of the user. */
+	private char[] password; /** The password of the user */
 
 	/**
 	 * Creates a new User with the default user name and password.
