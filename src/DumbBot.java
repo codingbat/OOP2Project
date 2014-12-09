@@ -109,7 +109,17 @@ public class DumbBot extends JFrame implements ActionListener {
 				chatArea.append("You asked: " + question + "\n");
 				chatlog.add("You asked: " + question + "\n");
 				chatField.setText("");
-
+				
+				/*****************************************************
+				*    Title: Chatbot delay between saying something and getting answer
+				*    Author: user3231227
+				*    Site owner/sponsor: stackoverflow.com
+				*    Date: 2014
+				*    Code version:  asked Jan 26 at 17:48 
+				*    Availability: https://stackoverflow.com/q/21366986 (Accessed 07 December 2014)
+				*    Modified:  used the algorithm and applied my own codes
+				*****************************************************/
+				
 				int response = 0;
 				/*
 				 * 0: we're searching through chatBot[][] for matches 
@@ -285,7 +295,7 @@ public class DumbBot extends JFrame implements ActionListener {
 	}
 
 	/*****************************************************
-	*    Title: How to write to file in Java – BufferedWriter
+	*    Title: How to write to file in Java ï¿½ BufferedWriter
 	*    Author: mkyong
 	*    Site owner/sponsor: http://www.mkyong.com
 	*    Date: 2013
