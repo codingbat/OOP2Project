@@ -1,2 +1,10 @@
 You: hey
-Bot: World is white.
+Bot: How are you?
+You: grand
+Bot: That's good.
+You: you are bad
+Bot: Do you like Anime?
+You: Do you like banana?
+Bot: I like bananas too.
+You: I don't like you.
+Bot: Why?

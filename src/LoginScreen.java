@@ -63,14 +63,12 @@ public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 		});
 
 		/*****************************************************
-		*    Title: React to the ENTER key in a Textfield
-		*    Author: mKorbel
-		*    Site owner/sponsor: http://www.rgagnon.com
-		*    Date: 2014
-		*    Code version: edited Mar 8 '13 at 21:09
-		*    Availability: http://www.rgagnon.com/javadetails/java-0253.html (Accessed 07 December 2014)
-		*    Modified:  added my class to suit with my program
-		*****************************************************/	
+		 * Title: React to the ENTER key in a Textfield Author: mKorbel Site
+		 * owner/sponsor: http://www.rgagnon.com Date: 2014 Code version: edited
+		 * Mar 8 '13 at 21:09 Availability:
+		 * http://www.rgagnon.com/javadetails/java-0253.html (Accessed 07
+		 * December 2014) Modified: added my class to suit with my program
+		 *****************************************************/
 		/** Move to next field upon pressing Enter */
 		userField.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
@@ -87,15 +85,13 @@ public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 		regBtn.addActionListener(this);
 
 		/*****************************************************
-		*    Title: Is there a way to set underline to mnemonic character in native look and feel under Win 7?
-		*    Author: a_horse_with_no_name
-		*    Site owner/sponsor: stackoverflow.com
-		*    Date: 2013
-		*    Code version: edited Sep 15 '13 at 10:23
-		*    Availability: http://stackoverflow.com/a/18811279 (Accessed 07 December 2014)
-		*    Modified:  (remain unmodified)
-		*****************************************************/
-		
+		 * Title: Is there a way to set underline to mnemonic character in
+		 * native look and feel under Win 7? Author: a_horse_with_no_name Site
+		 * owner/sponsor: stackoverflow.com Date: 2013 Code version: edited Sep
+		 * 15 '13 at 10:23 Availability: http://stackoverflow.com/a/18811279
+		 * (Accessed 07 December 2014) Modified: (remain unmodified)
+		 *****************************************************/
+
 		/** Underlining each mnemonic characters by default */
 		UIManager.getDefaults().put("Button.showMnemonics", Boolean.TRUE);
 	}
@@ -109,7 +105,8 @@ public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 		JMenuItem quit = new JMenuItem("Quit the Program");
 		quit.addActionListener(this);
 		quit.setForeground(Color.RED);
-		quit.setEnabled(false); //disable the quit menu item in the login screen
+		quit.setEnabled(false); // disable the quit menu item in the login
+								// screen
 
 		fileMenu.add(quit);
 	}
@@ -124,15 +121,14 @@ public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 		setDefaultCloseOperation(EXIT_ON_CLOSE); // close when exits
 
 		/*****************************************************
-		*    Title: JRootPane: setWindowDecorationStyle(int style)
-		*    Author: Java2s
-		*    Site owner/sponsor: http://www.java2s.com
-		*    Date: 2014
-		*    Code version: edited Jan 10 '13 at 17:42
-		*    Availability: http://www.java2s.com/Code/JavaAPI/javax.swing/JRootPanesetWindowDecorationStyleintstyle.htm (Accessed 07 December 2014)
-		*    Modified:  (remain unmodified)
-		*****************************************************/
-		
+		 * Title: JRootPane: setWindowDecorationStyle(int style) Author: Java2s
+		 * Site owner/sponsor: http://www.java2s.com Date: 2014 Code version:
+		 * edited Jan 10 '13 at 17:42 Availability:
+		 * http://www.java2s.com/Code/JavaAPI
+		 * /javax.swing/JRootPanesetWindowDecorationStyleintstyle.htm (Accessed
+		 * 07 December 2014) Modified: (remain unmodified)
+		 *****************************************************/
+
 		/** Use the default metal styled titlebar - for Windows */
 		setUndecorated(true); // false for mac
 		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
@@ -144,7 +140,7 @@ public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 		setJMenuBar(menuBar);
 		menuBar.setBackground(Color.YELLOW);
 		menuBar.add(fileMenu);
-		
+
 	}
 
 	/** All the implemented methods from ActionListener */
@@ -153,18 +149,16 @@ public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 		String user = userField.getText();
 		char[] password = passField.getPassword();
 		String pass = String.valueOf(password);
-		//System.out.print(password);
+		// System.out.print(password);
 
 		if (e.getSource() == regBtn) {
 			/*****************************************************
-			*    Title: Why to use SwingUtilities.invokeLater in main method?
-			*    Author: mKorbel
-			*    Site owner/sponsor: stackoverflow.com
-			*    Date: 2013
-			*    Code version: edited Mar 8 '13 at 21:09
-			*    Availability: http://stackoverflow.com/q/15302085 (Accessed 07 December 2014)
-			*    Modified:  added my class to suit with my program
-			*****************************************************/
+			 * Title: Why to use SwingUtilities.invokeLater in main method?
+			 * Author: mKorbel Site owner/sponsor: stackoverflow.com Date: 2013
+			 * Code version: edited Mar 8 '13 at 21:09 Availability:
+			 * http://stackoverflow.com/q/15302085 (Accessed 07 December 2014)
+			 * Modified: added my class to suit with my program
+			 *****************************************************/
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 
@@ -174,11 +168,11 @@ public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 
 			this.setVisible(false);
 
-		} else  {
+		} else {
 
-			//check if file exists in the directory
+			// check if file exists in the directory
 			if (fileExist()) {
-				readFile(); //if exists read the file
+				readFile(); // if exists read the file
 
 			} else {
 
@@ -186,42 +180,46 @@ public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 			}
 
 			// loop through entire 'users' file
+			boolean userExist = false;
 			for (User u : users) {
 				String pas = String.valueOf(u.getPassword());
-
+				if (u.getUser().equals(user) && pas.equals(pass))
+					userExist = true;
+			}
+			if (userExist) {
 				if (notEmpty()) {
-					if (u.getUser().equals(user) && pas.equals(pass)) {
-						/*****************************************************
-						*    Title: Why to use SwingUtilities.invokeLater in main method?
-						*    Author: mKorbel
-						*    Site owner/sponsor: stackoverflow.com
-						*    Date: 2013
-						*    Code version: edited Mar 8 '13 at 21:09
-						*    Availability: http://stackoverflow.com/q/15302085 (Accessed 07 December 2014)
-						*    Modified:  added my class to suit with my program
-						*****************************************************/
-						SwingUtilities.invokeLater(new Runnable() {
-							public void run() {
 
-								new Dashboard().setVisible(true);
-							}
-						});
+					/*****************************************************
+					 * Title: Why to use SwingUtilities.invokeLater in main
+					 * method? Author: mKorbel Site owner/sponsor:
+					 * stackoverflow.com Date: 2013 Code version: edited Mar 8
+					 * '13 at 21:09 Availability:
+					 * http://stackoverflow.com/q/15302085 (Accessed 07 December
+					 * 2014) Modified: added my class to suit with my program
+					 *****************************************************/
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
 
-						/** hide the ancestor window */
-						this.setVisible(false);
-						
-					} else
-						JOptionPane.showMessageDialog(null,"Username/password is not recognised!");
+							new Dashboard().setVisible(true);
+						}
+					});
+
+					/** hide the ancestor window */
+					this.setVisible(false);
+
 				} else
-					JOptionPane.showMessageDialog(null, "Please enter username and password!");
-			
-			} // end of for-loop	
+					JOptionPane.showMessageDialog(null,
+							"Please enter username and password!");
+
+			} else
+				JOptionPane.showMessageDialog(null,
+						"Username/password is not recognised!");
 
 		} // end of regBtn ActionListener check
 
 	}
 
-	//reading the file
+	// reading the file
 	@SuppressWarnings("unchecked")
 	private void readFile() {
 		try {
@@ -235,7 +233,7 @@ public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 		} catch (IOException e1) {
 
 			e1.printStackTrace();
-		} catch (ClassNotFoundException e2) { 
+		} catch (ClassNotFoundException e2) {
 			e2.printStackTrace();
 		}
 	}
@@ -247,8 +245,10 @@ public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 
 	/** Confirm registration method */
 	private void confirmRegistration() {
-		int option = JOptionPane.showConfirmDialog(null, "No users found in the system! "
-				+ "Do you want to create a new one?", "Not found", JOptionPane.YES_NO_OPTION);
+		int option = JOptionPane.showConfirmDialog(null,
+				"No users found in the system! "
+						+ "Do you want to create a new one?", "Not found",
+				JOptionPane.YES_NO_OPTION);
 
 		if (option == JOptionPane.YES_OPTION) {
 			SwingUtilities.invokeLater(new Runnable() {
@@ -263,11 +263,11 @@ public class LoginScreen extends JFrame implements GUICreation, ActionListener {
 
 	private boolean notEmpty() {
 		char[] pass = passField.getPassword();
-		String password = String.valueOf(pass);		
+		String password = String.valueOf(pass);
 		String user = userField.getText();
 
 		if (pass != null && password.trim().length() > 0
-				&& (user != null && user.trim().length() > 0) ) {
+				&& (user != null && user.trim().length() > 0)) {
 			return true;
 		}
 
